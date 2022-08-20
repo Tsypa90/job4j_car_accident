@@ -5,16 +5,22 @@
     <title>Accident</title>
 </head>
 <body>
-<table>
+<table class="table table-striped table-hover">
     <thead>
     <tr>
-        <th>Student</th>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Text</th>
+        <th scope="col">Address</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="student" items="${students}">
+    <c:forEach var="accident" items="${accidents}">
         <tr>
-            <td>${student}</td>
+            <td scope="row">${accident.id}</td>
+            <td>${accident.name}</td>
+            <td>${accident.text}</td>
+            <td>${accident.address}</td>
         </tr>
     </c:forEach>
     </tbody>
