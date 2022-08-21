@@ -1,4 +1,4 @@
-package ru.job4j.accident;
+package ru.job4j.accident.control;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,5 +18,4 @@ public class IndexControl {
         model.addAttribute("accidents", service.findAll());
         return "index";
     }
-
 }

@@ -6,18 +6,20 @@ import ru.job4j.accident.model.Accident;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem {
     private final Map<Integer, Accident> accidents = new HashMap<>();
-
-    public AccidentMem() {
-        for (int i = 0; i < 10; i++) {
-            accidents.put(i, Accident.of(i, "test" + i, "test" + i, "test" + i));
-        }
-    }
+    private final AtomicInteger id = new AtomicInteger(1);
 
     public List<Accident> findAll() {
         return accidents.values().stream().toList();
+    }
+
+    public Accident save(Accident accident) {
+        int accidentId = id.getAndIncrement();
+        accident.setId(accidentId);
+        return accidents.put(accident.getId(), accident);
     }
 }
