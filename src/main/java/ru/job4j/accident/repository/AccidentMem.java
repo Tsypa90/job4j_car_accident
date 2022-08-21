@@ -5,10 +5,11 @@ import ru.job4j.accident.model.Accident;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AccidentMem {
-    private HashMap<Integer, Accident> accidents = new HashMap<>();
+    private final Map<Integer, Accident> accidents = new HashMap<>();
 
     public AccidentMem() {
         for (int i = 0; i < 10; i++) {
