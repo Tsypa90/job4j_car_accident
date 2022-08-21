@@ -21,4 +21,12 @@ public class AccidentService {
     public Accident save(Accident accident) {
         return mem.save(accident);
     }
+
+    public Accident findById(int id) {
+        return mem.findById(id);
+    }
+
+    public Accident edit(Accident accident) {
+        return mem.edit(accident);
+    }
 }

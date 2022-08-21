@@ -17,10 +17,11 @@
     <tbody>
     <c:forEach var="accident" items="${accidents}">
         <tr>
-            <td scope="row">${accident.id}</td>
+            <td>${accident.id}</td>
             <td>${accident.name}</td>
             <td>${accident.text}</td>
             <td>${accident.address}</td>
+            <td><a href="<c:url value='/update?id=${accident.id}'/>">Обновить</a></td>
         </tr>
     </c:forEach>
     </tbody>
