@@ -18,6 +18,7 @@
         <th scope="col">Text</th>
         <th scope="col">Address</th>
         <th scope="col">Type</th>
+        <th scope="col">Rules</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,9 @@
             <td>${accident.text}</td>
             <td>${accident.address}</td>
             <td>${accident.type.name}</td>
+            <td><c:forEach var="rule" items="${accident.rules}" >
+                <option value="${rule.id}">${rule.name}</option>
+            </c:forEach></td>
             <td><a href="<c:url value='/update?id=${accident.id}'/>">Обновить</a></td>
         </tr>
     </c:forEach>
