@@ -38,10 +38,9 @@ public class AccidentControl {
     public String save(@ModelAttribute Accident accident, @RequestParam("type.id") int id, HttpServletRequest req) {
         var type = service.getTypes().get(id - 1);
         accident.setType(type);
-        var rules = service.getRules();
         String[] ids = req.getParameterValues("rIds");
         for (String ruleId : ids) {
-            accident.getRules().add(rules.get(Integer.parseInt(ruleId) - 1));
+            accident.getRules().add(service.getRules().get(Integer.parseInt(ruleId) - 1));
         }
         service.save(accident);
         return "redirect:/";
@@ -52,10 +51,9 @@ public class AccidentControl {
                        @RequestParam("type.id") int typeId, HttpServletRequest req) {
         var type = service.getTypes().get(typeId - 1);
         accident.setType(type);
-        var rules = service.getRules();
         String[] ids = req.getParameterValues("rIds");
         for (String ruleId : ids) {
-            accident.getRules().add(rules.get(Integer.parseInt(ruleId) - 1));
+            accident.getRules().add(service.getRules().get(Integer.parseInt(ruleId) - 1));
         }
         service.edit(accident);
         return "redirect:/";
