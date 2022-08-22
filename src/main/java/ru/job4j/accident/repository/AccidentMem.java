@@ -30,7 +30,7 @@ public class AccidentMem {
     }
 
     public List<AccidentType> getTypes() {
-        return types.values().stream().toList();
+        return new ArrayList<>(types.values());
     }
 
     public List<Rule> getRules() {
