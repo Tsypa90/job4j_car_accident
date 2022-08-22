@@ -4,47 +4,49 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.repository.AccidentJdbcTemplate;
 import ru.job4j.accident.repository.AccidentMem;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AccidentService {
-    private AccidentMem mem;
+    private AccidentJdbcTemplate store;
 
-    public AccidentService(AccidentMem mem) {
-        this.mem = mem;
+    public AccidentService(AccidentJdbcTemplate store) {
+        this.store = store;
     }
 
     public List<Accident> findAll() {
-        return mem.findAll();
+        return store.findAll();
     }
 
     public List<AccidentType> getTypes() {
-        return mem.getTypes();
+        return store.getTypes();
     }
 
     public List<Rule> getRules() {
-        return mem.getRules();
+        return store.getRules();
     }
 
     public Accident save(Accident accident) {
-        return mem.save(accident);
+        return store.save(accident);
     }
 
     public Accident setAccident(Accident accident, int typeId, String[] rulesId) {
-        accident.setType(mem.findTypeById(typeId));
+        accident.setType(store.findTypeById(typeId));
         for (String ruleId : rulesId) {
-            accident.getRules().add(mem.findRuleById(Integer.parseInt(ruleId)));
+            accident.getRules().add(store.findRuleById(Integer.parseInt(ruleId)));
         }
         return accident;
     }
 
     public Accident findById(int id) {
-        return mem.findById(id);
+        return store.findById(id);
     }
 
     public Accident edit(Accident accident) {
-        return mem.edit(accident);
+        return store.edit(accident);
     }
 }
