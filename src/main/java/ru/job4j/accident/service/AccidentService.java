@@ -32,6 +32,14 @@ public class AccidentService {
         return mem.save(accident);
     }
 
+    public Accident setAccident(Accident accident, int typeId, String[] rulesId) {
+        accident.setType(mem.findTypeById(typeId));
+        for (String ruleId : rulesId) {
+            accident.getRules().add(mem.findRuleById(Integer.parseInt(ruleId)));
+        }
+        return accident;
+    }
+
     public Accident findById(int id) {
         return mem.findById(id);
     }

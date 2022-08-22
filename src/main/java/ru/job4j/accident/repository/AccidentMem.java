@@ -47,6 +47,14 @@ public class AccidentMem {
         return accidents.get(id);
     }
 
+    public AccidentType findTypeById(int id) {
+        return types.get(id);
+    }
+
+    public Rule findRuleById(int id) {
+        return rules.get(id);
+    }
+
     public Accident edit(Accident accident) {
         return accidents.replace(accident.getId(), accident);
     }

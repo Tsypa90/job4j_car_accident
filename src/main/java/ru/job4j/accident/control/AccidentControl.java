@@ -36,26 +36,16 @@ public class AccidentControl {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident, @RequestParam("type.id") int id, HttpServletRequest req) {
-        var type = service.getTypes().get(id - 1);
-        accident.setType(type);
         String[] ids = req.getParameterValues("rIds");
-        for (String ruleId : ids) {
-            accident.getRules().add(service.getRules().get(Integer.parseInt(ruleId) - 1));
-        }
-        service.save(accident);
+        service.save(service.setAccident(accident, id, ids));
         return "redirect:/";
     }
 
     @PostMapping("/edit")
     public String edit(@ModelAttribute Accident accident,
                        @RequestParam("type.id") int typeId, HttpServletRequest req) {
-        var type = service.getTypes().get(typeId - 1);
-        accident.setType(type);
         String[] ids = req.getParameterValues("rIds");
-        for (String ruleId : ids) {
-            accident.getRules().add(service.getRules().get(Integer.parseInt(ruleId) - 1));
-        }
-        service.edit(accident);
+        service.edit(service.setAccident(accident, typeId, ids));
         return "redirect:/";
     }
 }
