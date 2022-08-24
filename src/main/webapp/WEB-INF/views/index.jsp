@@ -38,5 +38,6 @@
     </tbody>
 </table>
 <a href="<c:url value='/create'/>">Добавить инцидент</a>
+<button><a href="<c:url value='/logout'/>">Выйти</a></button>
 </body>
 </html>
