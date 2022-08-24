@@ -11,7 +11,7 @@ create table if not exists rules (
 create table if not exists accident (
 	id serial primary key,
 	name text,
-	text text,
+	acdn_text text,
 	address text,
 	type_id int REFERENCES types(id)
 );
