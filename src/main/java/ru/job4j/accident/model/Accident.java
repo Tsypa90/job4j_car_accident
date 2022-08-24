@@ -1,5 +1,7 @@
 package ru.job4j.accident.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -8,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "accident")
+@Transactional
 public class Accident implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

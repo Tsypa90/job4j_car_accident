@@ -1,10 +1,13 @@
 package ru.job4j.accident.model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "rules")
+@Transactional
 public class Rule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
