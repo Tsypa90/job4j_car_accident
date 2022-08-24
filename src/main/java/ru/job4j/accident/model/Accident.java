@@ -1,24 +1,31 @@
 package ru.job4j.accident.model;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Accident {
+@Entity
+@Table(name = "accident")
+public class Accident implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String text;
     private String address;
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "type_id")
     private AccidentType type;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set<Rule> rules = new HashSet<>();
 
-    public static Accident of(int id, String name, String text, String address, AccidentType type) {
+    public static Accident of(String name, String text, String address) {
         Accident accident = new Accident();
-        accident.id = id;
         accident.name = name;
         accident.text = text;
         accident.address = address;
-        accident.type = type;
         return accident;
     }
 
@@ -70,6 +77,10 @@ public class Accident {
         this.type = type;
     }
 
+    public void ruleAdd(Rule rule) {
+        rules.add(rule);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,11 +90,11 @@ public class Accident {
             return false;
         }
         Accident accident = (Accident) o;
-        return id == accident.id;
+        return id == accident.id && Objects.equals(name, accident.name) && Objects.equals(text, accident.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, text);
     }
 }

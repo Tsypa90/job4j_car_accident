@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.service.AccidentService;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class AccidentControl {
@@ -35,17 +35,22 @@ public class AccidentControl {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Accident accident, @RequestParam("type.id") int id, HttpServletRequest req) {
-        String[] ids = req.getParameterValues("rIds");
-        service.save(service.setAccident(accident, id, ids));
+    public String save(@ModelAttribute Accident accident,
+                       @RequestParam("type.id") int typeId,
+                       @RequestParam("rule.id") List<Integer> rulesId) {
+        accident.setType(service.findTypeById(typeId));
+        rulesId.forEach(s -> accident.ruleAdd(service.findRuleById(s)));
+        service.save(accident);
         return "redirect:/";
     }
 
     @PostMapping("/edit")
     public String edit(@ModelAttribute Accident accident,
-                       @RequestParam("type.id") int typeId, HttpServletRequest req) {
-        String[] ids = req.getParameterValues("rIds");
-        service.edit(service.setAccident(accident, typeId, ids));
+                       @RequestParam("type.id") int typeId,
+                       @RequestParam("rule.id") List<Integer> rulesId) {
+        accident.setType(service.findTypeById(typeId));
+        rulesId.forEach(s -> accident.ruleAdd(service.findRuleById(s)));
+        service.edit(accident);
         return "redirect:/";
     }
 }
