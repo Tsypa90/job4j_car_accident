@@ -23,7 +23,7 @@ public class AccidentJdbcTemplate {
     public Accident save(Accident accident) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbc.update(con -> {
-                    PreparedStatement ps = con.prepareStatement("insert into accident (name, text, address, type_id) values(?, ?, ?, ?)",
+                    PreparedStatement ps = con.prepareStatement("insert into accident (name, acdn_text, address, type_id) values(?, ?, ?, ?)",
                             new String[] {"id"});
                     ps.setString(1, accident.getName());
                     ps.setString(2, accident.getText());
@@ -62,7 +62,7 @@ public class AccidentJdbcTemplate {
             Accident accident = new Accident();
             accident.setId(rs.getInt("id"));
             accident.setName(rs.getString("name"));
-            accident.setText(rs.getString("text"));
+            accident.setText(rs.getString("acdn_text"));
             accident.setAddress(rs.getString("address"));
             accident.setType(findTypeById(rs.getInt("type_id")));
             jdbc.query("select rule_id from accident_rules where accident_id = ?",
@@ -96,7 +96,7 @@ public class AccidentJdbcTemplate {
             Accident accident = new Accident();
             accident.setId(rs.getInt("id"));
             accident.setName(rs.getString("name"));
-            accident.setText(rs.getString("text"));
+            accident.setText(rs.getString("acdn_text"));
             accident.setAddress(rs.getString("address"));
             accident.setType(findTypeById(rs.getInt("type_id")));
             return accident;
@@ -105,7 +105,7 @@ public class AccidentJdbcTemplate {
     }
 
     public Accident edit(Accident accident) {
-       jdbc.update("update accident set name = ?, text = ?, address = ?, type_id = ? where id = ?",
+       jdbc.update("update accident set name = ?, acdn_text = ?, address = ?, type_id = ? where id = ?",
                accident.getName(), accident.getText(), accident.getAddress(), accident.getType().getId(), accident.getId());
        jdbc.update("delete from accident_rules where accident_id = ?", accident.getId());
        accident.getRules().forEach(rule -> jdbc.update("insert into accident_rules (accident_id, rule_id) values (?, ?)",
