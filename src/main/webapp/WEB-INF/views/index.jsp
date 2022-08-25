@@ -10,6 +10,11 @@
     <title>Accident</title>
 </head>
 <body>
+<div>
+    Login as : ${user.username}
+</div>
+<a href="<c:url value='/create'/>">Добавить инцидент</a>
+<button><a href="<c:url value='/logout'/>">Выйти</a></button>
 <table class="table table-striped table-hover">
     <thead>
     <tr>
@@ -37,7 +42,5 @@
     </c:forEach>
     </tbody>
 </table>
-<a href="<c:url value='/create'/>">Добавить инцидент</a>
-<button><a href="<c:url value='/logout'/>">Выйти</a></button>
 </body>
 </html>
