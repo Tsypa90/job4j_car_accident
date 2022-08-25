@@ -38,20 +38,4 @@ public class AccidentService {
     public void edit(Accident accident) {
         store.edit(accident);
     }
-
-    public List<Rule> getRules() {
-        return store.getRules();
-    }
-
-    public Rule findRuleById(int id) {
-        return store.findRuleById(id);
-    }
-
-    public List<AccidentType> getTypes() {
-        return store.getTypes();
-    }
-
-    public AccidentType findTypeById(int id) {
-        return store.findTypeById(id);
-    }
 }

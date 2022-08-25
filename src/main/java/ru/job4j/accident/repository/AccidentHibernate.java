@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Repository
-public class AccidentHibernate {
+public class AccidentHibernate implements Store {
     private final SessionFactory sf;
     private static final String SELECT_ACCIDENT = "select distinct a from Accident a ";
     private static final String JOIN = "join fetch a.type join fetch a.rules ";
@@ -24,21 +24,6 @@ public class AccidentHibernate {
 
     public AccidentHibernate(SessionFactory sf) {
         this.sf = sf;
-    }
-
-    private  <T> T tx(final Function<Session, T> command, SessionFactory sf) {
-        final Session session = sf.openSession();
-        final Transaction tx = session.beginTransaction();
-        try {
-            T rsl = command.apply(session);
-            tx.commit();
-            return rsl;
-        } catch (final Exception e) {
-            session.getTransaction().rollback();
-            throw e;
-        } finally {
-            session.close();
-        }
     }
 
     public Accident save(Accident accident) {
