@@ -1,17 +1,11 @@
 package ru.job4j.accident.service;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.model.AccidentType;
-import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentHibernate;
 import ru.job4j.accident.repository.AccidentRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,13 +19,7 @@ public class AccidentService {
 
     @Transactional
     public List<Accident> findAll() {
-        List<Accident> rsl = new ArrayList<>();
-        store.findByOrderByIdAsc().forEach(s -> {
-            Hibernate.initialize(s.getRules());
-            Hibernate.initialize(s.getType());
-            rsl.add(s);
-        });
-        return rsl;
+        return store.findByOrderByIdAsc();
     }
 
     public Accident save(Accident accident) {
