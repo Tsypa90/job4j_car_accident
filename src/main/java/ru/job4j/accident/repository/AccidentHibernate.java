@@ -10,82 +10,62 @@ import ru.job4j.accident.model.Rule;
 
 import java.util.List;
 
-public class AccidentHibernate {
+@Repository
+public class AccidentHibernate implements Store {
     private final SessionFactory sf;
+    private static final String SELECT_ACCIDENT = "select distinct a from Accident a ";
+    private static final String JOIN = "join fetch a.type join fetch a.rules ";
+    private static final String ORDER = "order by a.id asc ";
+    private static final String WHERE = "where a.id = :aId ";
+    private static final String SELECT_RULE = "select distinct r from Rule r ";
+    private static final String SELECT_TYPE = "select distinct a from AccidentType a ";
 
     public AccidentHibernate(SessionFactory sf) {
         this.sf = sf;
     }
 
     public Accident save(Accident accident) {
-        try (Session session = sf.openSession()) {
+        return tx(session -> {
             session.beginTransaction();
             session.persist(accident);
             session.getTransaction().commit();
             session.close();
-            return accident;
-        }
+            return accident; }, sf);
     }
 
     @Transactional
     public List<Accident> findAll() {
-        try (Session session = sf.openSession()) {
-            var list = session
-                    .createQuery("select distinct a from Accident a "
-                            + "join fetch a.type "
-                            + "join fetch a.rules order by a.id asc ", Accident.class).getResultList();
-            System.out.println(list.size());
-            return list;
-        }
+        return tx(session -> session.createQuery(SELECT_ACCIDENT + JOIN + ORDER, Accident.class).getResultList(), sf);
     }
 
     public List<Rule> getRules() {
-        try (Session session = sf.openSession()) {
-            return session.createQuery("select r from Rule r ", Rule.class)
-                    .list();
-        }
+        return tx(session -> session.createQuery(SELECT_RULE, Rule.class).getResultList(), sf);
     }
 
     public List<AccidentType> getTypes() {
-        try (Session session = sf.openSession()) {
-            return session.createQuery("select a from AccidentType a ", AccidentType.class)
-                    .list();
-        }
+        return tx(session -> session.createQuery(SELECT_TYPE, AccidentType.class).getResultList(), sf);
     }
 
     public Accident findById(int id) {
-        try (Session session = sf.openSession()) {
-            return session.createQuery(
-                    "select distinct a from Accident a "
-                            + "join fetch a.type "
-                            + "join fetch a.rules "
-                            + "where a.id = :cId", Accident.class).
-                    setParameter("cId", id).uniqueResult();
-        }
+        return tx(session -> session.createQuery(SELECT_ACCIDENT + JOIN + WHERE, Accident.class).uniqueResult(), sf);
     }
 
     public void edit(Accident accident) {
-        try (Session session = sf.openSession()) {
+        tx(session -> {
             session.beginTransaction();
             session.update(accident);
             session.getTransaction().commit();
             session.close();
-        }
+            return accident; }, sf);
     }
 
     public AccidentType findTypeById(int id) {
-        try (Session session = sf.openSession()) {
-            return session.createQuery(
-                    "select distinct a from AccidentType a where a.id = :aId",
-                    AccidentType.class).setParameter("aId", id).uniqueResult();
-        }
+        return tx(session -> session.
+                createQuery(SELECT_TYPE + WHERE, AccidentType.class).setParameter("aId", id).uniqueResult(), sf);
     }
 
     public Rule findRuleById(int id) {
-        try (Session session = sf.openSession()) {
-            return session.createQuery(
-                    "select distinct a from Rule a where a.id = :aId",
-                    Rule.class).setParameter("aId", id).uniqueResult();
-        }
+        return tx(session -> session.
+                createQuery(SELECT_RULE + WHERE, Rule.class).setParameter("aId", id).uniqueResult(), sf);
     }
 }

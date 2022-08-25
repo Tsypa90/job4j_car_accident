@@ -1,10 +1,14 @@
 package ru.job4j.accident.service;
 
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.repository.AccidentHibernate;
 import ru.job4j.accident.repository.AccidentRepository;
 
 import java.util.ArrayList;
@@ -12,28 +16,21 @@ import java.util.List;
 
 @Service
 public class AccidentService {
-    private AccidentRepository store;
+    private final AccidentHibernate store;
 
-    public AccidentService(AccidentRepository store) {
+    @Autowired
+    public AccidentService(AccidentHibernate store) {
         this.store = store;
     }
 
-    @Transactional
     public List<Accident> findAll() {
-        List<Accident> rsl = new ArrayList<>();
-        store.findByOrderByIdAsc().forEach(s -> {
-            Hibernate.initialize(s.getRules());
-            Hibernate.initialize(s.getType());
-            rsl.add(s);
-        });
-        return rsl;
+        return store.findAll();
     }
 
     public Accident save(Accident accident) {
         return store.save(accident);
     }
 
-    @Transactional
     public Accident findById(int id) {
         return store.findById(id);
     }
@@ -42,5 +39,19 @@ public class AccidentService {
         store.save(accident);
     }
 
+    public List<Rule> getRules() {
+        return store.getRules();
+    }
 
+    public Rule findRuleById(int id) {
+        return store.findRuleById(id);
+    }
+
+    public List<AccidentType> getTypes() {
+        return store.getTypes();
+    }
+
+    public AccidentType findTypeById(int id) {
+        return store.findTypeById(id);
+    }
 }
