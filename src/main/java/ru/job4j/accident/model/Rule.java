@@ -7,7 +7,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "rules")
-@Transactional
 public class Rule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

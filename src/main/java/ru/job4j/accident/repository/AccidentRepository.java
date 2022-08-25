@@ -5,7 +5,7 @@ import ru.job4j.accident.model.Accident;
 
 import java.util.List;
 
-public interface AccidentRepository {
+public interface AccidentRepository extends CrudRepository<Accident, Integer> {
     List<Accident> findByOrderByIdAsc();
     Accident findById(int id);
 }

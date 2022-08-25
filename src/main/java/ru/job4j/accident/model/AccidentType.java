@@ -7,7 +7,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "types")
-@Transactional
 public class AccidentType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

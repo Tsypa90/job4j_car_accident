@@ -12,7 +12,6 @@ import ru.job4j.accident.model.Rule;
 import java.util.List;
 import java.util.function.Function;
 
-@Repository
 public class AccidentHibernate implements Store {
     private final SessionFactory sf;
     private static final String SELECT_ACCIDENT = "select distinct a from Accident a ";

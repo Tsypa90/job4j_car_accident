@@ -16,15 +16,22 @@ import java.util.List;
 
 @Service
 public class AccidentService {
-    private final AccidentHibernate store;
+    private final AccidentRepository store;
 
     @Autowired
-    public AccidentService(AccidentHibernate store) {
+    public AccidentService(AccidentRepository store) {
         this.store = store;
     }
 
+    @Transactional
     public List<Accident> findAll() {
-        return store.findAll();
+        List<Accident> rsl = new ArrayList<>();
+        store.findByOrderByIdAsc().forEach(s -> {
+            Hibernate.initialize(s.getRules());
+            Hibernate.initialize(s.getType());
+            rsl.add(s);
+        });
+        return rsl;
     }
 
     public Accident save(Accident accident) {
@@ -36,6 +43,6 @@ public class AccidentService {
     }
 
     public void edit(Accident accident) {
-        store.edit(accident);
+        store.save(accident);
     }
 }

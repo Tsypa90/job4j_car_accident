@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "accident")
-@Transactional
 public class Accident implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
