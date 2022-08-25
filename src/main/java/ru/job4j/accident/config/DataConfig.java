@@ -15,12 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-//@Configuration
-//@PropertySource("classpath:app.properties")
-//@EnableJpaRepositories("ru.job4j.accident.repository")
-//@EnableTransactionManagement
 public class DataConfig {
-//    @Bean
+    @Bean
     public DataSource ds(@Value("${jdbc.driver}") String driver,
                          @Value("${jdbc.url}") String url,
                          @Value("${jdbc.username}") String username,
@@ -33,7 +29,7 @@ public class DataConfig {
         return ds;
     }
 
-//    @Bean
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
@@ -44,7 +40,7 @@ public class DataConfig {
         return factory;
     }
 
-//    @Bean
+    @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory);

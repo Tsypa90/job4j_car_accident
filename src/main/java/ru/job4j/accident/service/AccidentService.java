@@ -2,7 +2,7 @@ package ru.job4j.accident.service;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.accident.model.Accident;
@@ -36,7 +36,7 @@ public class AccidentService {
     }
 
     public void edit(Accident accident) {
-        store.save(accident);
+        store.edit(accident);
     }
 
     public List<Rule> getRules() {
