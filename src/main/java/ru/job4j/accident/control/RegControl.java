@@ -11,6 +11,8 @@ import ru.job4j.accident.model.User;
 import ru.job4j.accident.repository.AuthorityRepository;
 import ru.job4j.accident.repository.UserRepository;
 
+import java.util.Optional;
+
 @Controller
 public class RegControl {
     private final PasswordEncoder encoder;
@@ -25,8 +27,8 @@ public class RegControl {
 
     @PostMapping("/reg")
     public String regSave(@ModelAttribute User user) {
-        User useDb = users.findByUsername(user.getUsername());
-        if (useDb != null) {
+        Optional<User> userDb = users.findByUsername(user.getUsername());
+        if (userDb.isPresent()) {
             return "redirect:/reg?error=true";
         }
         user.setEnabled(true);
